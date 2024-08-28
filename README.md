@@ -1,7 +1,7 @@
 # Enera Asterisk on Red Hat Enterprise Linux (RHEL)
 ## Online and Offline Installation and Management Scripts
 
-This repository contains scripts to facilitate the downloading, installation, and uninstallation of various features on both online and offline Red Hat Enterprise Linux (RHEL) hosts.
+The GitHub repository [enera-international/asterisk-rhel](https://github.com/enera-international/asterisk-rhel) repository contains scripts to facilitate the downloading, installation, and uninstallation of various features on both online and offline Red Hat Enterprise Linux (RHEL) hosts.
 
 ## Files Overview
 
