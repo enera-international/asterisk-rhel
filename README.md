@@ -8,14 +8,17 @@ The GitHub repository [enera-international/asterisk-rhel](https://github.com/ene
 - **install_online_features.sh**: A script to install selected features directly on an online RHEL host. It downloads and installs the necessary packages and dependencies from the internet.
 - **uninstall_features.sh**: A script to uninstall previously installed features from the offline RHEL host. It displays a list of installed features and allows the user to select which ones to remove.
 - **download_features.sh**: A script to download selected features and their dependencies on an online RHEL host. The downloaded files are organized into separate directories and compressed into a single archive for easy transfer to the offline host.
-- **install_features.sh**: A script to install the downloaded features on the offline RHEL host. It checks for previously installed features and prompts whether to reinstall them.
+- **install_downloaded_features.sh**: A script to install the downloaded features on the offline RHEL host. It checks for previously installed features and prompts whether to reinstall them.
 - **Feature-specific scripts** (`download_asterisk.sh`, `download_enera_asterisk_api.sh`, `download_rdp.sh`, `download_vscode.sh`, `download_rhel_security_updates.sh`, `download_rhel_all_updates.sh`): These scripts are called by `download_features.sh` to download the necessary packages and dependencies for each feature.
+- **Install-SSHFSWin.ps1**: A PowerShell script for the MC Windows Server to create a network drive connected to Asterisk.
+- **Uninstall-SSHFSWin.ps1**: A PowerShell script to uninstall SSHFS-Win if needed.
 
 ## Prerequisites
 
 - **Online RHEL Host**: Access to a RHEL machine with internet connectivity to download packages and dependencies or perform direct installations. When used to download packages for offline installation on another host both should run the same RHEL version.
 - **Offline RHEL Host**: The target machine where the downloaded features will be installed. This machine does not have internet connectivity.
 - **Git and other tools**: Ensure the necessary tools are installed on the online host for downloading and packaging dependencies.
+- **MC**: Access to the Enera MC host(s).
 
 ## Usage
 
@@ -68,9 +71,9 @@ The GitHub repository [enera-international/asterisk-rhel](https://github.com/ene
 
 #### Step 2: Installing Features on the Offline Host
 
-1. Transfer the `install_features.sh` script and the `offline_installation.tar.gz` file to the offline RHEL host.
+1. Transfer the `install_downloaded_features.sh` script and the `offline_installation.tar.gz` file to the offline RHEL host.
 
-2. Make the `install_features.sh` script executable:
+2. Make the `install_downloaded_features.sh` script executable:
 
     ```bash
     chmod +x install_features.sh
@@ -79,13 +82,13 @@ The GitHub repository [enera-international/asterisk-rhel](https://github.com/ene
 3. Run the script to install the features:
 
     ```bash
-    ./install_features.sh /path/to/offline_installation.tar.gz
+    ./install_downloaded_features.sh /path/to/offline_installation.tar.gz
     ```
 
     If the TAR file is in the same directory as the script, you can omit the path:
 
     ```bash
-    ./install_features.sh
+    ./install_downloaded_features.sh
     ```
 
     The script will check the installation state and prompt you if a feature has already been installed. The installation state is tracked in the hidden directory `$HOME/.enera/installation_state.txt`.
@@ -121,3 +124,64 @@ The GitHub repository [enera-international/asterisk-rhel](https://github.com/ene
 
 - **Missing Dependencies**: Ensure all necessary tools (e.g., `dnf`, `git`) are installed on the online host.
 - **Permission Issues**: If you encounter permission errors, ensure you are running the scripts with the appropriate privileges (e.g., using `sudo` where necessary).
+
+## Using the SSHFS-Win Install/Uninstall Scripts on an Enera MC Server
+
+### Overview
+The purpose of these scripts is to install and configure SSHFS-Win on an Enera MC server to create a file system link to an Enera Asterisk host. This setup allows the Enera MC server to access files on the Asterisk host as if they were local, leveraging SSHFS-Win for secure and efficient file sharing over the network.
+
+### Prerequisites
+- **Enera MC Server** running a compatible version of Windows.
+- **Enera Asterisk Host** with SSH access configured.
+- **PowerShell** with Administrator privileges.
+
+### Installation Instructions
+
+1. **Download and Save the Installation Script:**
+   Save the provided `Install-SSHFSWin.ps1` script to a location on the Enera MC server.
+
+2. **Run the Installation Script:**
+   Open a PowerShell window with Administrator privileges and navigate to the directory where you saved the installation script. Run the script by executing:
+
+   ```powershell
+   .\Install-SSHFSWin.ps1
+   ```
+
+3. **Configure the File System Link:**
+   After installation, use the following command format to map a network drive to the Asterisk host:
+
+   ```powershell
+   net use X: \\sshfs\REMOTEUSER@ASTERISK_HOST\linehandler /persistent:yes
+   ```
+
+   Replace `REMOTEUSER` with your SSH username and `ASTERISK_HOST` with the IP address or hostname of the Asterisk server.
+
+4. **Verify the Connection:**
+   Confirm that the drive appears in `This PC` or `My Computer` and that you can access the files on the Asterisk host.
+
+### Uninstallation Instructions
+
+1. **Download and Save the Uninstallation Script:**
+   Save the provided `Uninstall-SSHFSWin.ps1` script to a location on the Enera MC server.
+
+2. **Run the Uninstallation Script:**
+   Open a PowerShell window with Administrator privileges and navigate to the directory where you saved the uninstallation script. Run the script by executing:
+
+   ```powershell
+   .\Uninstall-SSHFSWin.ps1
+   ```
+
+3. **Remove the Network Drive:**
+   If you had mapped a drive using SSHFS-Win, unmap it using:
+
+   ```powershell
+   net use X: /delete
+   ```
+
+   Replace `X:` with the drive letter you assigned to the network drive.
+
+### Notes
+- **Security Considerations:** Ensure that the SSH credentials used for connecting to the Asterisk host are securely managed and do not compromise the security of the Asterisk server.
+- **Performance:** While SSHFS provides a convenient method for accessing remote files, the performance may vary depending on network conditions and the configuration of the Asterisk host.
+
+This setup is ideal for scenarios where direct access to the Asterisk host's file system is required for operations such as log analysis, configuration management, or backup purposes.

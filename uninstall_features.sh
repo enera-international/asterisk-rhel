@@ -22,6 +22,9 @@ uninstall_packages() {
         "Enera_Asterisk_API")
             sudo dnf remove -y nodejs nginx mongodb-org
             ;;
+        "Samba")
+            ./utilities/uninstall_samba.sh
+            ;;
         "RDP")
             sudo dnf remove -y xrdp
             ;;

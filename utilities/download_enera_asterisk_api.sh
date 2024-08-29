@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Save the current working directory
+ORIGINAL_CWD=$(pwd)
+
 # Get the directory to save downloaded files
 FEATURE_DIR=$1
 mkdir -p $FEATURE_DIR
@@ -18,7 +21,7 @@ gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
 EOF
 
 # Download MongoDB, Node.js, Nginx, and their dependencies
-sudo dnf download --resolve --destdir=$FEATURE_DIR mongodb-org nodejs nginx
+sudo dnf download --resolve --destdir=$FEATURE_DIR mongodb-org nodejs nginx httpd-tools
 
 # Clone the public npm package enera-international/asterisk-api-server and package it
 cd $FEATURE_DIR
@@ -39,3 +42,6 @@ cd ..
 rm -rf asterisk-web-server
 
 # Note: This script assumes npm and Git are available on the system.
+
+# Return to the original working directory
+cd $ORIGINAL_CWD

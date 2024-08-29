@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Save the current working directory
+ORIGINAL_CWD=$(pwd)
+
 # Get the directory to save downloaded files
 FEATURE_DIR=$1
 mkdir -p $FEATURE_DIR
@@ -17,3 +20,6 @@ mkdir -p $EXT_DIR
 cd $EXT_DIR
 wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/vscode-typescript-tslint-plugin/latest/vspackage -O vscode-typescript-tslint-plugin.vsix
 wget https://marketplace.visualstudio.com/_apis/public/gallery/publishers/rogalmic/vsextensions/bash-debug/latest/vspackage -O bash-debug.vsix
+
+# Return to the original working directory
+cd $ORIGINAL_CWD

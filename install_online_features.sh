@@ -1,13 +1,21 @@
 #!/bin/bash
 
+# Exit on any error
+set -e
+set -u
+set -o pipefail
+
 echo "Select the features to install:"
-echo "1) Asterisk"
-echo "2) Enera Asterisk API (with Node.js, Nginx, MongoDB, and npm packages)"
-echo "3) RDP"
-echo "4) VSCode (with Bash and TypeScript plugins)"
-echo "5) RHEL Security Updates"
-echo "6) Download All Updates"
-echo "7) All features"
+echo "1) Asterisk from RHEL repository *"
+echo "2) Asterisk source (alternative to 1, for customization) *"
+echo "3) Enera Asterisk API *"
+echo "4) Samba (for backward compatibility) (*)"
+echo "5) RDP"
+echo "6) VSCode (with Bash and TypeScript plugins)"
+echo "7) RHEL Security Updates"
+echo "8) Download All RHEL Updates"
+echo "9) All features (with Asterisk alt 1)"
+echo "* = required feature, (*) = required with old MC"
 echo "Enter the numbers separated by spaces (e.g., 1 3 4):"
 read -p "> " features
 
@@ -15,6 +23,12 @@ read -p "> " features
 install_asterisk() {
     echo "Installing Asterisk..."
     sudo dnf install -y asterisk
+}
+
+# Function to install Asterisk from source
+install_asterisk_from_soure() {
+    echo "Installing Asterisk from source..."
+    ./utilities/install_asterisk_online_from_source.sh
 }
 
 # Function to install Enera Asterisk API (with dependencies)
@@ -38,14 +52,20 @@ EOF
     cd asterisk-api-server
     npm install
     cd ..
-    rm -rf asterisk-api-server
     
     # Clone and install asterisk-web-server
     git clone https://github.com/enera-international/asterisk-web-server.git
     cd asterisk-web-server
     npm install
+    ./utilities/install_nginx.sh
     cd ..
-    rm -rf asterisk-web-server
+}
+
+# Function to install Samba
+install_samba() {
+    echo "Installing Samba..."
+    sudo dnf install -y samba samba-client samba-common
+    ./utilities/install_samba.sh
 }
 
 # Function to install RDP
@@ -87,21 +107,27 @@ for feature in $features; do
             install_asterisk
             ;;
         2)
-            install_enera_asterisk_api
+            install_asterisk_from_source
             ;;
         3)
-            install_rdp
+            install_enera_asterisk_api
             ;;
         4)
-            install_vscode
+            install_samba
             ;;
         5)
-            install_rhel_security_updates
+            install_rdp
             ;;
         6)
-            install_rhel_all_updates
+            install_vscode
             ;;
         7)
+            install_rhel_security_updates
+            ;;
+        8)
+            install_rhel_all_updates
+            ;;
+        9)
             install_asterisk
             install_enera_asterisk_api
             install_rdp
@@ -114,5 +140,7 @@ for feature in $features; do
             ;;
     esac
 done
+
+sudo firewall-cmd --reload
 
 echo "Installation complete."

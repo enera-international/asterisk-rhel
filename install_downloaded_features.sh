@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Exit on any error
+set -e
+set -u
+set -o pipefail
+
 # Define the directory and file for tracking installation state
 STATE_DIR="$HOME/.enera"
 STATE_FILE="$STATE_DIR/installation_state.txt"
@@ -87,25 +92,37 @@ install_npm_dependencies() {
 }
 
 # Check for and install each feature based on the directories present
-if [ -d "$EXTRACT_DIR/Asterisk" ]; then
-    install_packages "Asterisk" "$EXTRACT_DIR/Asterisk"
+if [ -d "$EXTRACT_DIR/asterisk" ]; then
+    install_packages "Asterisk" "$EXTRACT_DIR/asterisk"
 fi
 
-if [ -d "$EXTRACT_DIR/Enera_Asterisk_API" ]; then
-    install_packages "Enera_Asterisk_API" "$EXTRACT_DIR/Enera_Asterisk_API"
-    install_npm_dependencies "Enera_Asterisk_API" "$EXTRACT_DIR/Enera_Asterisk_API" "asterisk-api-server"
-    install_npm_dependencies "Enera_Asterisk_API" "$EXTRACT_DIR/Enera_Asterisk_API" "asterisk-web-server"
+if [ -d "$EXTRACT_DIR/asterisk_source" ]; then
+    install_packages "Asterisk_Source" "$EXTRACT_DIR/asterisk_source"
+    ./utilities/install_asterisk_from_source.sh
 fi
 
-if [ -d "$EXTRACT_DIR/RDP" ]; then
-    install_packages "RDP" "$EXTRACT_DIR/RDP"
+if [ -d "$EXTRACT_DIR/enera_asterisk_api" ]; then
+    install_packages "Enera_Asterisk_API" "$EXTRACT_DIR/enera_asterisk_api"
+    install_npm_dependencies "Enera_Asterisk_API" "$EXTRACT_DIR/enera_asterisk_api" "asterisk-api-server"
+    install_npm_dependencies "Enera_Asterisk_API" "$EXTRACT_DIR/enera_asterisk_api" "asterisk-web-server"
+    ./utilities/install_nginx.sh
+    ./utilities/install_enera_api.sh
 fi
 
-if [ -d "$EXTRACT_DIR/VSCode" ]; then
-    install_packages "VSCode" "$EXTRACT_DIR/VSCode"
+if [ -d "$EXTRACT_DIR/samba" ]; then
+    install_packages "Samba" "$EXTRACT_DIR/samba"
+    ./utilities/install_samba.sh
+fi
+
+if [ -d "$EXTRACT_DIR/rdp" ]; then
+    install_packages "RDP" "$EXTRACT_DIR/rdp"
+fi
+
+if [ -d "$EXTRACT_DIR/vcsode" ]; then
+    install_packages "VSCode" "$EXTRACT_DIR/vscode"
 
     # Install VSCode extensions
-    EXT_DIR="$EXTRACT_DIR/VSCode/vscode-extensions"
+    EXT_DIR="$EXTRACT_DIR/vscode/vscode-extensions"
     if [ -d "$EXT_DIR" ]; then
         echo "Installing VSCode extensions..."
         for ext in "$EXT_DIR"/*.vsix; do
