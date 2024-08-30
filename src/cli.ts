@@ -1,4 +1,4 @@
-#!/usr/bin/env -S ts-node
+#!/usr/bin/env node
 
 import { $, echo, ProcessOutput } from 'zx';
 import { select } from '@inquirer/prompts';

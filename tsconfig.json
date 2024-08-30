@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist",        // Output directory for compiled JavaScript
+      "rootDir": "./src",        // Root directory of TypeScript source files
+      "module": "commonjs",      // Module system to use
+      "target": "es2018",        // Target ECMAScript version
+      "strict": true,            // Enable strict type-checking options
+      "esModuleInterop": true,   // Emit additional code to ensure correct behavior when importing modules
+      "skipLibCheck": true,      // Skip type checking of declaration files
+      "forceConsistentCasingInFileNames": true  // Ensure consistent file naming
+    },
+    "include": ["src/**/*.ts"]   // Include all TypeScript files in the src directory
+  }
+  
