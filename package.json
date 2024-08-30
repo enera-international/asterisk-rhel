@@ -6,7 +6,7 @@
   "scripts": {
     "test": "ts-node ./src/testScript.ts",
     "build": "tsc",
-    "start": "node ./dist/cli.js",
+    "start": "node ./dist/cli.js"
   },
   "bin": {
     "asterisk-rhel": "./dist/cli.js",
