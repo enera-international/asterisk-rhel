@@ -1,6 +1,6 @@
 {
   "name": "@enera/asterisk-rhel",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A CLI tool for managing Asterisk on RHEL systems for the Enera organization.",
   "main": "dist/index.js",
   "scripts": {
