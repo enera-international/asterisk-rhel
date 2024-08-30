@@ -6,7 +6,8 @@
   "scripts": {
     "test": "ts-node ./testScript.ts",
     "build": "tsc",
-    "start": "ts-node ./default.ts"
+    "start": "ts-node ./default.ts",
+    "asterisk-rhel": "ts-node ./default.ts"
   },
   "bin": {
     "asterisk-rhel": "ts-node ./default.ts"
