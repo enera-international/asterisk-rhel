@@ -9,9 +9,7 @@
     "start": "ts-node ./default.ts",
     "asterisk-rhel": "ts-node ./default.ts"
   },
-  "bin": {
-    "asterisk-rhel": "ts-node ./default.ts"
-  },
+  "bin": "ts-node ./default.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/enera-international/asterisk-rhel.git"
