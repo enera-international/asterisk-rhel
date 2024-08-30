@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "test": "ts-node ./testScript.ts"
+  },
+  "bin": "ts-node ./default.ts",
+  "dependencies": {
+    "@inquirer/prompts": "^5.3.8",
+    "ts-node": "^10.9.2",
+    "zx": "^8.1.5"
+  }
+}

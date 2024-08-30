@@ -54,8 +54,8 @@ EOF
     cd ..
     
     # Clone and install asterisk-web-server
-    git clone https://github.com/enera-international/asterisk-web-server.git
-    cd asterisk-web-server
+    git clone https://github.com/enera-international/asterisk-web-app.git
+    cd asterisk-web-app
     npm install
     ./utilities/install_nginx.sh
     cd ..

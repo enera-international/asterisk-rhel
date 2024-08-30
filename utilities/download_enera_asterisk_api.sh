@@ -8,7 +8,7 @@ FEATURE_DIR=$1
 mkdir -p $FEATURE_DIR
 
 # Download Node.js, Nginx, MongoDB, and other dependencies
-sudo dnf install -y dnf-plugins-core
+sudo dnf install -y dnf-plugins-core nodejs
 
 # Add MongoDB repository and key
 cat <<EOF | sudo tee /etc/yum.repos.d/mongodb-org-4.4.repo
@@ -28,20 +28,18 @@ cd $FEATURE_DIR
 git clone https://github.com/enera-international/asterisk-api-server.git
 cd asterisk-api-server
 npm install
-tar -czvf ../asterisk-api-server.tar.gz node_modules
 cd ..
+tar -czvf asterisk-api-server.tar.gz asterisk-api-server
 rm -rf asterisk-api-server
 
 # Clone the public npm package enera-international/asterisk-web-server and package it
 cd $FEATURE_DIR
-git clone https://github.com/enera-international/asterisk-web-server.git
-cd asterisk-web-server
+git clone https://github.com/enera-international/asterisk-web-app.git
+cd asterisk-web-app
 npm install
-tar -czvf ../asterisk-web-server.tar.gz node_modules
 cd ..
+tar -czvf asterisk-web-app.tar.gz asterisk-web-app
 rm -rf asterisk-web-server
-
-# Note: This script assumes npm and Git are available on the system.
 
 # Return to the original working directory
 cd $ORIGINAL_CWD
