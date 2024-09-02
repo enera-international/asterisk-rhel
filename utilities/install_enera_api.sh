@@ -28,3 +28,5 @@ sudo cp -f enera-api.service /etc/systemd/system/enera-api.service
 sudo systemctl daemon-reload
 sudo systemctl enable enera-api
 sudo systemctl start enera-api
+
+sudo firewall-cmd --zone=public --add-port=22/tcp --permanent

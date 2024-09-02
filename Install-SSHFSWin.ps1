@@ -1,28 +1,46 @@
-# PowerShell Script to Install SSHFS-Win and Add to PATH
+# Define the URLs for downloading SSHFS-Win and WinFsp
 
-# Variables
-$installerUrl = "https://github.com/winfsp/sshfs-win/releases/download/v3.5.20357/SSHFS-Win-3.5.20357-x64.msi"
-$installerPath = "$env:TEMP\SSHFS-Win.msi"
-$installDir = "C:\Program Files\SSHFS-Win\bin"
+$sshfsWinUrl = "https://github.com/winfsp/sshfs-win/releases/download/v3.5.20357/sshfs-win-3.5.20357-x64.msi"
+$winfspUrl = "https://github.com/winfsp/winfsp/releases/download/v2.0/winfsp-2.0.23075.msi"
 
-# Download the installer
-Write-Host "Downloading SSHFS-Win installer..."
-Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
+# Define the paths where the installers will be downloaded
+$sshfsWinInstaller = "$env:TEMP\sshfs-win.exe"
+$winfspInstaller = "$env:TEMP\winfsp.msi"
 
-# Install SSHFS-Win
-Write-Host "Installing SSHFS-Win..."
-Start-Process msiexec.exe -ArgumentList "/i `"$installerPath`" /quiet /norestart" -Wait
+# Download SSHFS-Win installer
+Write-Output "Downloading SSHFS-Win..."
+Invoke-WebRequest -Uri $sshfsWinUrl -OutFile $sshfsWinInstaller
 
-# Add SSHFS-Win to PATH
-Write-Host "Adding SSHFS-Win to system PATH..."
-$path = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine)
-if ($path -notlike "*$installDir*") {
-    [System.Environment]::SetEnvironmentVariable("Path", "$path;$installDir", [System.EnvironmentVariableTarget]::Machine)
-    Write-Host "SSHFS-Win has been added to the system PATH."
+# Download WinFsp installer
+Write-Output "Downloading WinFsp..."
+Invoke-WebRequest -Uri $winfspUrl -OutFile $winfspInstaller
+
+# Install WinFsp silently
+Write-Output "Installing WinFsp..."
+Start-Process -FilePath "msiexec.exe" -ArgumentList "/i `"$winfspInstaller`" /quiet /norestart" -Wait
+
+# Install SSHFS-Win silently
+Write-Output "Installing SSHFS-Win..."
+Start-Process -FilePath $sshfsWinInstaller -ArgumentList "/S" -Wait
+
+# Define the installation path for SSHFS-Win (the default installation path)
+$sshfsWinInstallPath = "C:\Program Files\SSHFS-Win\bin"
+
+# Add SSHFS-Win to the system PATH environment variable
+Write-Output "Adding SSHFS-Win to the system PATH..."
+$existingPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine)
+
+if (-not $existingPath.Contains($sshfsWinInstallPath)) {
+    $newPath = $existingPath + ";" + $sshfsWinInstallPath
+    [System.Environment]::SetEnvironmentVariable("Path", $newPath, [System.EnvironmentVariableTarget]::Machine)
+    Write-Output "SSHFS-Win has been added to the PATH."
 } else {
-    Write-Host "SSHFS-Win is already in the system PATH."
+    Write-Output "SSHFS-Win is already in the PATH."
 }
 
-# Cleanup
-Remove-Item $installerPath -Force
-Write-Host "Installation complete."
+# Cleanup downloaded installers
+Write-Output "Cleaning up..."
+Remove-Item -Path $sshfsWinInstaller
+Remove-Item -Path $winfspInstaller
+
+Write-Output "Installation completed. You may need to restart your session for PATH changes to take effect."

@@ -36,5 +36,9 @@ sudo systemctl start asterisk
 # Verify that Asterisk is running
 sudo systemctl status asterisk
 
+sudo firewall-cmd --zone=public --add-port=5060/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=5060/udp --permanent
+sudo firewall-cmd --zone=public --add-port=10000-65535/udp --permanent
+
 # Return to the original working directory
 cd $ORIGINAL_CWD
