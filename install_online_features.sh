@@ -34,13 +34,17 @@ install_asterisk_from_soure() {
 # Function to install Enera Asterisk API (with dependencies)
 install_enera_asterisk_api() {
     echo "Installing Enera Asterisk API (with Node.js, Nginx, MongoDB, and npm packages)..."
-    sudo dnf install -y nodejs nginx
+    # installs nvm (Node Version Manager)
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    # download and install Node.js (you may need to restart the terminal)
+    nvm install 20
+    sudo dnf install -y nginx
     
     # Add MongoDB repository and install
     sudo tee /etc/yum.repos.d/mongodb-org-4.4.repo > /dev/null <<EOF
 [mongodb-org-4.4]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/4.4/x86_64/
+baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
