@@ -36,6 +36,9 @@ install_enera_asterisk_api() {
     echo "Installing Enera Asterisk API (with Node.js, Nginx, MongoDB, and npm packages)..."
     # installs nvm (Node Version Manager)
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
     # download and install Node.js (you may need to restart the terminal)
     nvm install 20
     sudo dnf install -y nginx
