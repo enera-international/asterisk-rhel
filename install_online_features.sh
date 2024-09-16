@@ -22,7 +22,8 @@ read -p "> " features
 # Function to install Asterisk
 install_asterisk() {
     echo "Installing Asterisk..."
-    sudo dnf install -y asterisk
+    sudo dnf install -y asterisk asterisk-chan-sip
+    sudo systemctl enable asterisk --now
     sudo firewall-cmd --zone=public --add-port=5060/tcp --permanent
     sudo firewall-cmd --zone=public --add-port=5060/udp --permanent
     sudo firewall-cmd --zone=public --add-port=10000-65535/udp --permanent
@@ -89,7 +90,6 @@ install_rdp() {
     echo "Installing RDP..."
     sudo dnf install -y xrdp
     sudo systemctl enable xrdp --now
-
     sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
 }
 

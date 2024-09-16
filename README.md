@@ -115,6 +115,48 @@ The GitHub repository [enera-international/asterisk-rhel](https://github.com/ene
 
 - **$HOME/.enera**: A hidden directory in the user's home folder that stores the `installation_state.txt` file, tracking the features that have been installed.
 
+## Access the Asterisk CLI
+
+Once the Asterisk service is running, you can access the Asterisk CLI with the following command:
+
+    ```bash
+    sudo asterisk -r
+    ```
+The -r flag stands for "remote console," which connects you to the running instance of Asterisk. This will give you access to the interactive Asterisk CLI where you can run commands like sip show peers, core show channels, etc.
+
+## Stopping or Restarting the Asterisk Service
+
+- Stop Asterisk:
+
+    ```bash
+    sudo systemctl stop asterisk
+    ```
+
+- Restart Asterisk:
+
+    ```bash
+    sudo systemctl restart asterisk
+    ```
+
+## Optional: Run Asterisk in Debug Mode
+
+If you want to start Asterisk with full logging output (for debugging purposes), you can run:
+
+    ```bash
+    sudo asterisk -rvvvvv
+    ```
+
+The number of vs increases the verbosity of the output.
+
+- Troubleshooting
+
+If Asterisk doesn’t start, you can view the logs to see what’s going wrong:
+
+    ```bash
+    sudo journalctl -xe
+    sudo tail -f /var/log/asterisk/messages
+    ```
+
 ## Notes
 
 - **Feature-Specific Information**: The `install_online_features.sh` script includes MongoDB and two npm packages: `enera-international/asterisk-api-server` and `enera-international/asterisk-web-server`. Ensure that you have `git` and `npm` installed on the online host to clone and package these dependencies.
