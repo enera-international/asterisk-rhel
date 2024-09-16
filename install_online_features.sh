@@ -88,6 +88,8 @@ install_samba() {
 install_rdp() {
     echo "Installing RDP..."
     sudo dnf install -y xrdp
+    sudo systemctl enable xrdp --now
+
     sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
 }
 
