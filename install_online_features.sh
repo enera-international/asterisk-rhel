@@ -64,8 +64,8 @@ EOF
     git clone https://github.com/enera-international/asterisk-web-app.git
     cd asterisk-web-app
     npm install
-    ./utilities/install_nginx.sh
     cd ..
+    ./utilities/install_nginx.sh
 }
 
 # Function to install Samba
