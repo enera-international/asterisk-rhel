@@ -55,12 +55,18 @@ EOF
     sudo dnf install -y mongodb-org
     
     # Clone and install asterisk-api-server
+    if [ -d "asterisk-api-server" ]; then
+        rm -rf asterisk-api-server
+    fi
     git clone https://github.com/enera-international/asterisk-api-server.git
     cd asterisk-api-server
     npm install
     cd ..
     
     # Clone and install asterisk-web-server
+    if [ -d "asterisk-web-app" ]; then
+        rm -rf asterisk-web-app
+    fi
     git clone https://github.com/enera-international/asterisk-web-app.git
     cd asterisk-web-app
     npm install
