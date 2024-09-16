@@ -23,6 +23,9 @@ read -p "> " features
 install_asterisk() {
     echo "Installing Asterisk..."
     sudo dnf install -y asterisk
+    sudo firewall-cmd --zone=public --add-port=5060/tcp --permanent
+    sudo firewall-cmd --zone=public --add-port=5060/udp --permanent
+    sudo firewall-cmd --zone=public --add-port=10000-65535/udp --permanent
 }
 
 # Function to install Asterisk from source
@@ -85,6 +88,7 @@ install_samba() {
 install_rdp() {
     echo "Installing RDP..."
     sudo dnf install -y xrdp
+    sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
 }
 
 # Function to install VSCode and extensions
@@ -115,6 +119,7 @@ install_rhel_all_updates() {
 
 #install extra RHEL packages
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
 
 # Process each selected feature
 for feature in $features; do
