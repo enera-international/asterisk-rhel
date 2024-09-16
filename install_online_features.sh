@@ -40,7 +40,7 @@ install_enera_asterisk_api() {
     sudo tee /etc/yum.repos.d/mongodb-org-4.4.repo > /dev/null <<EOF
 [mongodb-org-4.4]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/4.4/x86_64/
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/4.4/x86_64/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
@@ -99,6 +99,9 @@ install_rhel_all_updates() {
     echo "Installing all RHEL Updates..."
     sudo dnf update -y
 }
+
+#install extra RHEL packages
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 # Process each selected feature
 for feature in $features; do
