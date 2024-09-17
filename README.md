@@ -35,13 +35,7 @@ The GitHub repository [enera-international/asterisk-rhel](https://github.com/ene
     cd asterisk-rhel
     ```
 
-2. Make the `install_online_features.sh` script executable:
-
-    ```bash
-    chmod +x install_online_features.sh
-    ```
-
-3. Run the script to install the desired features directly on the online host:
+2. Run the script to install the desired features directly on the online host:
 
     ```bash
     ./install_online_features.sh

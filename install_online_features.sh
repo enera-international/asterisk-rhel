@@ -16,13 +16,13 @@ echo "7) RHEL Security Updates"
 echo "8) Download All RHEL Updates"
 echo "9) All features (with Asterisk alt 1)"
 echo "* = required feature, (*) = required with old MC"
-echo "Enter the numbers separated by spaces (e.g., 1 3 4):"
+echo "Enter the numbers separated by spaces (e.g., 1 3 5):"
 read -p "> " features
 
 # Function to install Asterisk
 install_asterisk() {
     echo "Installing Asterisk..."
-    sudo dnf install -y asterisk asterisk-chan-sip
+    sudo dnf install -y asterisk
     sudo systemctl enable asterisk --now
     sudo firewall-cmd --zone=public --add-port=5060/tcp --permanent
     sudo firewall-cmd --zone=public --add-port=5060/udp --permanent
@@ -121,7 +121,7 @@ install_rhel_all_updates() {
 }
 
 #install extra RHEL packages
-sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
 sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
 
 # Process each selected feature
