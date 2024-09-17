@@ -17,7 +17,10 @@ The GitHub repository [enera-international/asterisk-rhel](https://github.com/ene
 
 - **Online RHEL Host**: Access to a RHEL machine with internet connectivity to download packages and dependencies or perform direct installations. When used to download packages for offline installation on another host both should run the same RHEL version.
 - **Offline RHEL Host**: The target machine where the downloaded features will be installed. This machine does not have internet connectivity.
-- **Git and other tools**: Ensure the necessary tools are installed on the online host for downloading and packaging dependencies.
+- **Git and other tools**: Ensure the necessary tools are installed on the online host for downloading and packaging dependencies:
+    ```bash
+    sudo dnf install git
+    ```
 - **MC**: Access to the Enera MC host(s).
 
 ## Usage
