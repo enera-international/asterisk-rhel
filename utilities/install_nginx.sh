@@ -97,7 +97,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable enera-api
 sudo systemctl start enera-api
 
-sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=443/tcp --permanent
+./utilities/firewall-add-port.sh public 80 tcp
+./utilities/firewall-add-port.sh public 443 tcp
 
 echo "Installation completed."

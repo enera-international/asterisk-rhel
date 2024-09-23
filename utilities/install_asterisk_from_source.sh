@@ -1,17 +1,19 @@
 #!/bin/bash
 
+ASTERISK_FILENAME=$1
+
 # Save the current working directory
 ORIGINAL_CWD=$(pwd)
 
 # Extract the Asterisk source
-sudo tar zxvf asterisk-20-current.tar.gz
-cd asterisk-20*/
+sudo tar zxvf ASTERISK_FILENAME
+cd $ASTERISK_FILENAME*/
 
 # Install additional dependencies using the script provided by Asterisk
 sudo contrib/scripts/install_prereq install
 
 # Configure the build options
-sudo ./configure
+sudo ./configure --with-jansson-bundled
 
 # Choose the modules to build
 sudo make menuselect
@@ -36,9 +38,9 @@ sudo systemctl start asterisk
 # Verify that Asterisk is running
 sudo systemctl status asterisk
 
-sudo firewall-cmd --zone=public --add-port=5060/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=5060/udp --permanent
-sudo firewall-cmd --zone=public --add-port=10000-65535/udp --permanent
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 tcp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 udp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 10000-65535 tcp
 
 # Return to the original working directory
 cd $ORIGINAL_CWD

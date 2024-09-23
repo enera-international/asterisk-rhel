@@ -56,9 +56,9 @@ sudo testparm
 
 echo "Samba installation and configuration completed."
 
-sudo firewall-cmd --zone=public --add-port=445/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=139/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=137-138/udp --permanent
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 445 tcp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 139 tcp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 137-138 udp
 
 # Return to the original working directory
 cd $ORIGINAL_CWD

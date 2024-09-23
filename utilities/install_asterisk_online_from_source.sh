@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ASTERISK_FILENAME=asterisk-18.24.2
+
 # Save the current working directory
 ORIGINAL_CWD=$(pwd)
 
@@ -22,11 +24,15 @@ sudo dnf install -y \
     libedit-devel \
     pjproject-devel
 
+sudo dnf install -y \
+    tar gcc-c++ make newt-devel libsqlite3x-devel binutils-devel
+
+
 # Download the Asterisk source
 cd /usr/src/
-sudo wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-20-current.tar.gz
+sudo wget http://downloads.asterisk.org/pub/telephony/asterisk/old-releases/$ASTERISK_FILENAME.tar.gz
 
-./install_asterisk_from_source.sh
+./install_asterisk_from_source.sh $ASTERISK_FILENAME.tar.gz
 
 echo "Asterisk installation is complete."
 
