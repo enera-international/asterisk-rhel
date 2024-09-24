@@ -10,8 +10,8 @@ cd $ASTERISK_FILENAME*/
 sudo contrib/scripts/install_prereq install
 
 # Configure the build options
-sudo echo "ENABLE_SIP=yes" > menuselect.makeopts
-sudo echo "ENABLE_PJSIP=no" >> menuselect.makeopts
+echo "ENABLE_SIP=yes" | sudo tee menuselect.makeopts > /dev/null
+echo "ENABLE_PJSIP=no" | sudo tee -a menuselect.makeopts > /dev/null
 sudo ./configure --with-jansson-bundled
 
 # Choose the modules to build
