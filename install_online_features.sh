@@ -66,7 +66,7 @@ EOF
 
     # Clone and install asterisk-api-server
     if [ -d "/srv/asterisk-api-server" ]; then
-        rm -rf /srv/asterisk-api-server
+        sudo rm -rf /srv/asterisk-api-server
     fi
     sudo mkdir -p /srv/asterisk-api-server
     sudo chown -R rapidreach:rapidreach /srv/asterisk-api-server
@@ -76,7 +76,7 @@ EOF
     
     # Clone and install asterisk-web-server  
     if [ -d "/srv/asterisk-web-app" ]; then
-        rm -rf /srv/asterisk-web-app
+        sudo rm -rf /srv/asterisk-web-app
     fi
     sudo mkdir -p /srv/asterisk-web-app
     sudo chown -R rapidreach:rapidreach /srv/asterisk-web-app
