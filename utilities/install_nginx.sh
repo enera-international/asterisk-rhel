@@ -1,47 +1,9 @@
 #!/bin/bash
 
-# Generate and write text to the output file
-if [ -f "reverse-proxy" ]; then
-    rm reverse-proxy
-fi
-cat <<EOF > "reverse-proxy"
-server {
-    listen 80;
-    listen  [::]:80;
-    server_name _;
-    return 301 https://\$host\$request_uri;
-}
-server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    server_name $HOSTNAME;
-
-    ssl_certificate /etc/nginx/ssl/server.crt;
-    ssl_certificate_key /etc/nginx/ssl/server.key;
-
-    # Serve static files from root "/"
-    location / {
-        root /srv/asterisk-web-app/dist;  # Specify the path to your static files
-        try_files $uri $uri/ =404;   # Serve the file or return 404 if not found
-    }
-
-    # Proxy API requests to /api/v2
-    location /api/v2/ {
-        auth_basic "API Login";
-        auth_basic_user_file .htpasswd;
-        rewrite ^/api/v2/(.*)$ /$1 break;  # Strip /api/v2 prefix before forwarding
-        proxy_pass http://127.0.0.1:3000/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-EOF
 sudo htpasswd -cb /etc/nginx/.htpasswd linehandler Qfpy65OWa6cRBxoctkqEtr2SKl1gNuQLOP42u8j25Gi5NykPkUm7KHsABjLGyvel
 sudo mkdir /etc/nginx/sites-available
 sudo mkdir /etc/nginx/sites-enabled
-sudo cp -f reverse-proxy /etc/nginx/sites-available/reverse-proxy
+sudo cp -f utilities/nginx.conf /etc/nginx/sites-available/enera-api
 sudo rm -f /etc/nginx/sites-enabled/default
 
 # Define the nginx.conf file path
