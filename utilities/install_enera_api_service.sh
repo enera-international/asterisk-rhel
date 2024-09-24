@@ -1,30 +1,30 @@
 #!/bin/bash
 
 username=$(whoami)
-if [ -f "enera-api.service" ]; then
-    rm enera-api.service
+if [ -f "asterisk-api-server.service" ]; then
+    rm asterisk-api-server.service
 fi
-cat <<EOF > "enera-api.service"
+cat <<EOF > "asterisk-api-server.service"
 [Unit]
-Description=Enera API server
+Description=Enera Asterisk API server
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/node /home/$username/enera-asterisk-api-server/package/dist/index.js
+ExecStart=/usr/bin/node /srv/asterisk-api-server/dist/index.js
 Restart=always
 User=$username
 Group=$username
 Environment=NODE_ENV=production
-WorkingDirectory=/home/$username/enera-asterisk-api-server/package
+WorkingDirectory=/srv/asterisk-api-server
 StandardOutput=syslog
 StandardError=syslog
-SyslogIdentifier=enera-asterisk-api-server
+SyslogIdentifier=asterisk-api-server
 
 [Install]
 WantedBy=multi-user.target
 EOF
-sudo cp -f enera-api.service /etc/systemd/system/enera-api.service
+sudo cp -f asterisk-api-server.service /etc/systemd/system/asterisk-api-server.service
 
 sudo systemctl daemon-reload
-sudo systemctl enable enera-api
-sudo systemctl start enera-api
+sudo systemctl enable asterisk-api-server
+sudo systemctl start asterisk-api-server
