@@ -74,6 +74,7 @@ EOF
     cd /srv/asterisk-api-server
     npm install
     npm run build
+    sudo chmod -R 777 dist
     
     # Clone and install asterisk-web-server  
     if [ -d "/srv/asterisk-web-app" ]; then
@@ -85,6 +86,9 @@ EOF
     cd /srv/asterisk-web-app
     npm install
     npm run build
+    sudo chmod -R 777 /srv /srv/asterisk-web-app
+    sudo chown -R nginx:nginx /srv/asterisk-web-app
+    sudo chcon -R -t httpd_sys_content_t /srv/asterisk-web-app
     cd $ORIGINAL_CWD
     ./utilities/install_nginx.sh
     ./utilities/install_enera_api_service.sh
