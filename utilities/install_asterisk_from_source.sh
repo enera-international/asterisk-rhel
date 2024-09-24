@@ -38,9 +38,9 @@ sudo systemctl start asterisk
 # Verify that Asterisk is running
 sudo systemctl status asterisk
 
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 5038 tcp
 $ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 tcp
 $ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 udp
-$ORIGINAL_CWD/utilities/firewall-add-port.sh public 5038 tcp
 $ORIGINAL_CWD/utilities/firewall-add-port.sh public 10000-65535 tcp
 
 # Return to the original working directory

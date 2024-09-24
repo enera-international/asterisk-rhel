@@ -26,6 +26,7 @@ install_asterisk() {
     sudo systemctl daemon-reload
     sudo systemctl start asterisk
     sudo systemctl enable asterisk
+    ./utilities/firewall-add-port.sh public 5038 udp
     ./utilities/firewall-add-port.sh public 5060 tcp
     ./utilities/firewall-add-port.sh public 5060 udp
     ./utilities/firewall-add-port.sh public 10000-65535 tcp
