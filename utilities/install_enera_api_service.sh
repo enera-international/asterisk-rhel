@@ -17,8 +17,8 @@ User=$username
 Group=$username
 Environment=NODE_ENV=production
 WorkingDirectory=/srv/asterisk-api-server
-StandardOutput=syslog
-StandardError=syslog
+StandardOutput=journal
+StandardError=journal
 SyslogIdentifier=asterisk-api-server
 
 [Install]

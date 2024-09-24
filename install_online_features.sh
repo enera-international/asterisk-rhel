@@ -75,6 +75,7 @@ EOF
     npm install
     npm run build
     sudo chmod -R 777 dist
+    sudo chcon -R -t httpd_sys_content_t /srv/asterisk-api-server
     
     # Clone and install asterisk-web-server  
     if [ -d "/srv/asterisk-web-app" ]; then
