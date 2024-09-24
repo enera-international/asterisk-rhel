@@ -5,9 +5,6 @@ ASTERISK_FILENAME=asterisk-18.24.2
 # Save the current working directory
 ORIGINAL_CWD=$(pwd)
 
-# Update the system
-sudo dnf update -y  --allowerasing
-
 # Install dependencies
 sudo dnf groupinstall -y "Development Tools"
 sudo dnf install -y epel-release dnf-plugins-core

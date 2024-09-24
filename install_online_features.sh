@@ -13,8 +13,7 @@ echo "4) Samba (for backward compatibility) (*)"
 echo "5) RDP"
 echo "6) VSCode (with Bash and TypeScript plugins)"
 echo "7) RHEL Security Updates"
-echo "8) Download All RHEL Updates"
-echo "9) All features (with Asterisk alt 1)"
+echo "8) All features (with Asterisk alt 1)"
 echo "* = required feature, (*) = required with old MC"
 echo "Enter the numbers separated by spaces (e.g., 1 3 5):"
 read -p "> " features
@@ -132,12 +131,7 @@ install_rhel_security_updates() {
     sudo dnf update --security -y
 }
 
-# Function to install all RHEL Updates
-install_rhel_all_updates() {
-    echo "Installing all RHEL Updates..."
-    sudo dnf update -y
-}
-
+sudo dnf update -y --allowerasing
 #install extra RHEL packages
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
 sudo /usr/bin/crb enable
@@ -169,9 +163,6 @@ for feature in $features; do
             install_rhel_security_updates
             ;;
         8)
-            install_rhel_all_updates
-            ;;
-        9)
             install_asterisk
             install_enera_asterisk_api
             install_rdp
