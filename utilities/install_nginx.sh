@@ -19,14 +19,22 @@ server {
     ssl_certificate /etc/nginx/ssl/server.crt;
     ssl_certificate_key /etc/nginx/ssl/server.key;
 
+    # Serve static files from root "/"
     location / {
+        root /srv/asterisk-web-app/dist;  # Specify the path to your static files
+        try_files $uri $uri/ =404;   # Serve the file or return 404 if not found
+    }
+
+    # Proxy API requests to /api/v2
+    location /api/v2/ {
         auth_basic "API Login";
         auth_basic_user_file .htpasswd;
-        proxy_pass http://127.0.0.1:8080;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        rewrite ^/api/v2/(.*)$ /$1 break;  # Strip /api/v2 prefix before forwarding
+        proxy_pass http://127.0.0.1:3000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 EOF

@@ -40,6 +40,7 @@ install_asterisk_from_source() {
 
 # Function to install Enera Asterisk API (with dependencies)
 install_enera_asterisk_api() {
+    ./utilities/install_enera_api_online.sh
     echo "Installing Enera Asterisk API (with Node.js, Nginx, MongoDB, and npm packages)..."
     # installs nvm (Node Version Manager)
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
@@ -61,23 +62,28 @@ gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
 EOF
     sudo dnf install -y mongodb-org
     
+    ORIGINAL_CWD=$(pwd)
+
     # Clone and install asterisk-api-server
-    if [ -d "asterisk-api-server" ]; then
-        rm -rf asterisk-api-server
+    if [ -d "/srv/asterisk-api-server" ]; then
+        rm -rf /srv/asterisk-api-server
     fi
-    git clone https://github.com/enera-international/asterisk-api-server.git
-    cd asterisk-api-server
+    sudo mkdir -p /srv/asterisk-api-server
+    sudo chown -R rapidreach:rapidreach /srv/asterisk-api-server
+    git clone https://github.com/enera-international/asterisk-api-server.git /srv/asterisk-api-server
+    cd /srv/asterisk-api-server
     npm install
-    cd ..
     
-    # Clone and install asterisk-web-server
-    if [ -d "asterisk-web-app" ]; then
-        rm -rf asterisk-web-app
+    # Clone and install asterisk-web-server  
+    if [ -d "/srv/asterisk-web-app" ]; then
+        rm -rf /srv/asterisk-web-app
     fi
-    git clone https://github.com/enera-international/asterisk-web-app.git
-    cd asterisk-web-app
+    sudo mkdir -p /srv/asterisk-web-app
+    sudo chown -R rapidreach:rapidreach /srv/asterisk-web-app
+    git clone https://github.com/enera-international/asterisk-web-app.git /srv/asterisk-web-app
+    cd /srv/asterisk-web-app
     npm install
-    cd ..
+    cd $ORIGINAL_CWD
     ./utilities/install_nginx.sh
 }
 
