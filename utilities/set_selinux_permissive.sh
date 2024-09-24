@@ -10,6 +10,6 @@ sudo sed -i 's/^SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config
 grep SELINUX= /etc/selinux/config
 
 # Set current mode to permissive (immediate effect)
-setenforce 0
+sudo setenforce 0
 
 echo "SELinux is now set to Permissive mode."
