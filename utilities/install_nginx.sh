@@ -35,6 +35,7 @@ sudo openssl req  -x509 -nodes -days 365 -new \
  -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt
 
 sudo nginx -t
+sudo systemctl enable nginx
 sudo systemctl restart nginx
 # SELinux allow network access
 sudo setsebool -P httpd_can_network_connect 1
