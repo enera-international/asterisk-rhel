@@ -122,7 +122,7 @@ install_vscode() {
     sudo dnf install -y code
     
     # Install VSCode extensions
-    code --install-extension ms-vscode.vscode-typescript-tslint-plugin
+    code --install-extension dbaeumer.vscode-eslint
     code --install-extension rogalmic.bash-debug
 }
 
