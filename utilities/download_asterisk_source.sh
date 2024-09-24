@@ -8,7 +8,7 @@ FEATURE_DIR=$1
 mkdir -p $FEATURE_DIR
 
 # Variables
-AST_VERSION="20-current"
+AST_VERSION=18.24.2
 
 # Update the system
 sudo dnf update -y
@@ -24,7 +24,8 @@ sudo dnf install -y \
 
 # Download Asterisk source code
 cd $FEATURE_DIR
-wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-$AST_VERSION.tar.gz
+wget http://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-$AST_VERSION.tar.gz
+#wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-$AST_VERSION.tar.gz
 
 # Download Asterisk build dependencies
 sudo dnf install --downloadonly --downloaddir=$FEATURE_DIR \
