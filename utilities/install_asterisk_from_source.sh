@@ -7,22 +7,23 @@ sudo tar zxvf $ASTERISK_FILENAME.tar.gz
 cd $ASTERISK_FILENAME*/
 
 # Install additional dependencies using the script provided by Asterisk
-sudo contrib/scripts/install_prereq install
+contrib/scripts/install_prereq install
 
 # Configure the build options
-echo "ENABLE_SIP=yes" | sudo tee menuselect.makeopts > /dev/null
-echo "ENABLE_PJSIP=no" | sudo tee -a menuselect.makeopts > /dev/null
-sudo ./configure --with-jansson-bundled
+#echo "ENABLE_SIP=yes" | sudo tee menuselect.makeopts > /dev/null
+#echo "ENABLE_PJSIP=no" | sudo tee -a menuselect.makeopts > /dev/null
+./configure --with-jansson-bundled
 
 # Choose the modules to build
-sudo make menuselect
+make menuselect
 
 # Build and install Asterisk
-sudo make -j2
+make -j2
 sudo make install
+sudo make install-logrotate
 
 # Install sample configuration files (optional)
-sudo make samples
+make samples
 
 # Install Asterisk service script
 sudo dnf install chkconfig -y
