@@ -3,7 +3,7 @@
 sudo htpasswd -cb /etc/nginx/.htpasswd linehandler Qfpy65OWa6cRBxoctkqEtr2SKl1gNuQLOP42u8j25Gi5NykPkUm7KHsABjLGyvel
 sudo mkdir /etc/nginx/sites-available
 sudo mkdir /etc/nginx/sites-enabled
-sudo cp -f utilities/nginx.conf /etc/nginx/sites-available/enera-api
+sudo cp -f utilities/nginx.conf /etc/nginx/sites-available/enera
 sudo rm -f /etc/nginx/sites-enabled/default
 
 # Define the nginx.conf file path
@@ -25,7 +25,7 @@ else
     echo "Include line added to $NGINX_CONF."
 fi
 
-sudo ln -sf /etc/nginx/sites-available/reverse-proxy /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/enera /etc/nginx/sites-enabled/
 if ! [ -d "/etc/nginx/ssl" ]; then
     sudo mkdir /etc/nginx/ssl
 fi
