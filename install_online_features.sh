@@ -73,6 +73,7 @@ EOF
     git clone https://github.com/enera-international/asterisk-api-server.git /srv/asterisk-api-server
     cd /srv/asterisk-api-server
     npm install
+    npm run build
     
     # Clone and install asterisk-web-server  
     if [ -d "/srv/asterisk-web-app" ]; then
@@ -83,6 +84,7 @@ EOF
     git clone https://github.com/enera-international/asterisk-web-app.git /srv/asterisk-web-app
     cd /srv/asterisk-web-app
     npm install
+    npm run build
     cd $ORIGINAL_CWD
     ./utilities/install_nginx.sh
     ./utilities/install_enera_api_service.sh
