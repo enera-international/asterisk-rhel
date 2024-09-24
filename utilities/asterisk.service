@@ -1,0 +1,16 @@
+[Unit]
+Description=Asterisk PBX and telephony daemon
+After=network.target
+
+[Service]
+Type=simple
+User=asterisk
+Group=asterisk
+WorkingDirectory=/var/lib/asterisk
+ExecStart=/usr/sbin/asterisk -f -U asterisk -G asterisk
+ExecStop=/usr/sbin/asterisk -rx 'core stop now'
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

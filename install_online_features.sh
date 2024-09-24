@@ -26,16 +26,16 @@ install_asterisk() {
     sudo systemctl daemon-reload
     sudo systemctl start asterisk
     sudo systemctl enable asterisk
-    ./utilities/firewall-add-port.sh public 5038 udp
-    ./utilities/firewall-add-port.sh public 5060 tcp
-    ./utilities/firewall-add-port.sh public 5060 udp
-    ./utilities/firewall-add-port.sh public 10000-65535 tcp
+    source ./utilities/firewall-add-port.sh public 5038 udp
+    source ./utilities/firewall-add-port.sh public 5060 tcp
+    source ./utilities/firewall-add-port.sh public 5060 udp
+    source ./utilities/firewall-add-port.sh public 10000-65535 tcp
 }
 
 # Function to install Asterisk from source
 install_asterisk_from_source() {
     echo "Installing Asterisk from source..."
-    ./utilities/install_asterisk_online_from_source.sh
+    source ./utilities/install_asterisk_online_from_source.sh
 }
 
 # Function to install Enera Asterisk API (with dependencies)
@@ -93,15 +93,15 @@ EOF
     sudo semanage fcontext -a -t httpd_sys_content_t "/srv/asterisk-web-app(/.*)?"
     sudo restorecon -R /srv/asterisk-web-app
     cd $ORIGINAL_CWD
-    ./utilities/install_nginx.sh
-    ./utilities/install_enera_api_service.sh
+    source ./utilities/install_nginx.sh
+    source ./utilities/install_enera_api_service.sh
 }
 
 # Function to install Samba
 install_samba() {
     echo "Installing Samba..."
     sudo dnf install -y samba samba-client samba-common
-    ./utilities/install_samba.sh
+    source ./utilities/install_samba.sh
 }
 
 # Function to install RDP
@@ -109,7 +109,7 @@ install_rdp() {
     echo "Installing RDP..."
     sudo dnf install -y xrdp
     sudo systemctl enable xrdp --now
-    ./utilities/firewall-add-port.sh public 3389 tcp
+    source ./utilities/firewall-add-port.sh public 3389 tcp
 }
 
 # Function to install VSCode and extensions
@@ -140,8 +140,8 @@ install_rhel_all_updates() {
 
 #install extra RHEL packages
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
-./utilities/firewall-add-port.sh public 22 tcp
-./utilities/set_selinux_permissive.sh
+source ./utilities/firewall-add-port.sh public 22 tcp
+source ./utilities/set_selinux_permissive.sh
 
 # Process each selected feature
 for feature in $features; do
