@@ -41,7 +41,6 @@ install_asterisk_from_source() {
 
 # Function to install Enera Asterisk API (with dependencies)
 install_enera_asterisk_api() {
-    ./utilities/install_enera_api_online.sh
     echo "Installing Enera Asterisk API (with Node.js, Nginx, MongoDB, and npm packages)..."
     # installs nvm (Node Version Manager)
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
@@ -86,6 +85,7 @@ EOF
     npm install
     cd $ORIGINAL_CWD
     ./utilities/install_nginx.sh
+    ./utilities/install_enera_api_service.sh
 }
 
 # Function to install Samba
