@@ -35,7 +35,6 @@ install_asterisk() {
 # Function to install Asterisk from source
 install_asterisk_from_source() {
     echo "Installing Asterisk from source..."
-    ./utilities/download_asterisk_source.sh
     ./utilities/install_asterisk_online_from_source.sh
 }
 
