@@ -1,6 +1,7 @@
 #!/bin/bash
 
 username=$(whoami)
+NODE_PATH=$(which node)
 if [ -f "asterisk-api-server.service" ]; then
     rm asterisk-api-server.service
 fi
@@ -10,7 +11,7 @@ Description=Enera Asterisk API server
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/node /srv/asterisk-api-server/dist/index.js
+ExecStart=$NODE_PATH /srv/asterisk-api-server/dist/index.js
 Restart=always
 User=$username
 Group=$username
