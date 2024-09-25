@@ -5,13 +5,16 @@ set -e
 set -u
 set -o pipefail
 
+# Get Asterisk version
+source ./utilities/asterisk-version.sh
+
 # Create the main directory for the download
 DOWNLOAD_DIR="offline_packages"
 mkdir -p $DOWNLOAD_DIR
 
 echo "Select the features to include in the download:"
 echo "1) Asterisk from RHEL repository *"
-echo "2) Asterisk source (alternative to 1, for customization) *"
+echo "2) Asterisk $ASTERISK_VERSION source (alternative to 1, for customization)"
 echo "3) Enera Asterisk API *"
 echo "4) Samba (for backward compatibility) (*)"
 echo "5) RDP"

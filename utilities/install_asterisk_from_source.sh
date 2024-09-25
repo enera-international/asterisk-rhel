@@ -1,10 +1,8 @@
 #!/bin/bash
 
-ASTERISK_FILENAME=$1
-
 # Extract the Asterisk source
-sudo tar zxvf $ASTERISK_FILENAME.tar.gz
-cd $ASTERISK_FILENAME*/
+sudo tar zxvf $ASTERISK_FILENAME
+cd $ASTERISK_BASEFILENAME/
 
 # Install additional dependencies using the script provided by Asterisk
 contrib/scripts/install_prereq install
@@ -12,7 +10,7 @@ contrib/scripts/install_prereq install
 # Configure the build options
 #echo "ENABLE_SIP=yes" | sudo tee menuselect.makeopts > /dev/null
 #echo "ENABLE_PJSIP=no" | sudo tee -a menuselect.makeopts > /dev/null
-./configure --with-jansson-bundled
+sudo ./configure --with-jansson-bundled
 
 # Choose the modules to build
 make menuselect

@@ -24,9 +24,9 @@ sudo dnf install -y \
 
 # Download the Asterisk source
 cd /usr/src/
-sudo wget http://downloads.asterisk.org/pub/telephony/asterisk/old-releases/$ASTERISK_FILENAME.tar.gz
+sudo wget $ASTERISK_URL
 
-source $ORIGINAL_CWD/utilities/install_asterisk_from_source.sh $ASTERISK_FILENAME
+source $ORIGINAL_CWD/utilities/install_asterisk_from_source.sh
 
 echo "Asterisk installation is complete."
 

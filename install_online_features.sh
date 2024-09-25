@@ -5,9 +5,12 @@ set -e
 set -u
 set -o pipefail
 
+# Get Asterisk version
+source ./utilities/asterisk-version.sh
+
 echo "Select the features to install:"
 echo "1) Asterisk from RHEL repository *"
-echo "2) Asterisk source (alternative to 1, for customization) *"
+echo "2) Asterisk $ASTERISK_VERSION from source (alternative to 1, for customization)"
 echo "3) Enera Asterisk API *"
 echo "4) Samba (for backward compatibility) (*)"
 echo "5) RDP"
@@ -32,7 +35,7 @@ install_asterisk() {
 }
 
 # Function to install Asterisk from source
-install_asterisk_from_source() {
+install_asterisk_online_from_source() {
     echo "Installing Asterisk from source..."
     source ./utilities/install_asterisk_online_from_source.sh
 }
@@ -145,7 +148,7 @@ for feature in $features; do
             install_asterisk
             ;;
         2)
-            install_asterisk_from_source
+            install_asterisk_online_from_source
             ;;
         3)
             install_enera_asterisk_api
