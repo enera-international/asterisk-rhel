@@ -11,7 +11,14 @@ mkdir -p $FEATURE_DIR
 sudo dnf update -y
 
 # Install the necessary tools
-sudo dnf install -y epel-release dnf-plugins-core
+if sudo dnf install -y epel-release; then
+    echo "EPEL repository installed successfully."
+else
+    echo "EPEL repository not found. Installing from URL..."
+    sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+    echo "EPEL repository installed from URL."
+fi
+sudo dnf install -y dnf-plugins-core
 sudo dnf config-manager --set-enabled PowerTools
 sudo dnf install -y \
     wget \

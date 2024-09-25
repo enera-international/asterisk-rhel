@@ -135,7 +135,13 @@ install_rhel_security_updates() {
 }
 
 sudo dnf update -y --allowerasing
-sudo dnf install -y epel-release
+if sudo dnf install -y epel-release; then
+    echo "EPEL repository installed successfully."
+else
+    echo "EPEL repository not found. Installing from URL..."
+    sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+    echo "EPEL repository installed from URL."
+fi
 sudo /usr/bin/crb enable
 source ./utilities/firewall-add-port.sh public 22 tcp
 source ./utilities/set_selinux_permissive.sh
