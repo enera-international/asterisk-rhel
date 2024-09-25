@@ -167,6 +167,7 @@ else
     sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     echo "EPEL repository installed from URL."
 fi
+sudo /usr/bin/crb enable
 source ./utilities/firewall-add-port.sh public 22 tcp
 source ./utilities/set_selinux_permissive.sh
 
