@@ -17,20 +17,23 @@ tar xzf $ASTERISK_FILENAME
 cd $ASTERISK_BASEFILENAME/
 
 # Install Asterisk (configure, build, and run menuselect)
-sudo ./configure
+sudo ./configure --without-pjproject
 
 # Run menuselect for interactive configuration
 make menuselect
 
 # Continue with the build process
+sudo dnf install chkconfig -y
 make
 sudo make install
+sudo rm /etc/rc.d/init.d/asterisk
 sudo make config
 sudo make install-logrotate
 
 # Create Asterisk user and group
-sudo useradd -r -s /sbin/nologin asterisk
-sudo chown -R asterisk:asterisk /usr/local/lib/asterisk
+if ! id -u asterisk > /dev/null 2>&1; then
+  sudo useradd -r -s /sbin/nologin asterisk
+fi
 sudo chown -R asterisk:asterisk /var/lib/asterisk
 sudo chown -R asterisk:asterisk /etc/asterisk
 sudo chown -R asterisk:asterisk /var/log/asterisk
@@ -61,7 +64,7 @@ sudo systemctl start asterisk
 $ORIGINAL_CWD/utilities/firewall-add-port.sh public 5038 tcp
 $ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 tcp
 $ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 udp
-$ORIGINAL_CWD/utilities/firewall-add-port.sh public 10000-65535 tcp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 10000-65535 udp
 
 echo "Asterisk installation is complete."
 
