@@ -26,8 +26,8 @@ make menuselect
 sudo dnf install chkconfig -y
 make
 sudo make install
-sudo rm /etc/rc.d/init.d/asterisk
 sudo make config
+sudo rm /etc/rc.d/init.d/asterisk
 sudo make install-logrotate
 
 # Create Asterisk user and group
