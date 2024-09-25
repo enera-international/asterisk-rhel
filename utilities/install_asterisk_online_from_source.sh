@@ -1,32 +1,68 @@
 #!/bin/bash
 
-ASTERISK_FILENAME=asterisk-18.24.2
-
 # Save the current working directory
 ORIGINAL_CWD=$(pwd)
 
 # Install dependencies
 sudo dnf groupinstall -y "Development Tools"
-sudo dnf install -y epel-release dnf-plugins-core
-sudo dnf install -y \
-    wget \
-    git \
-    ncurses-devel \
-    libxml2-devel \
-    sqlite-devel \
-    openssl-devel \
-    libuuid-devel \
-    libedit-devel
+sudo dnf install -y wget git gcc gcc-c++ make libxml2-devel sqlite-devel \
+  uuid-devel jansson-devel openssl-devel ncurses-devel newt-devel \
+  libogg-devel libvorbis-devel spandsp-devel libedit-devel
 
-sudo dnf install -y \
-    tar gcc-c++ make newt-devel libsqlite3x-devel binutils-devel
+# Create a directory for Asterisk
+mkdir -p ~/asterisk && cd ~/asterisk
 
+# Download Asterisk 18
+wget $ASTERISK_URL
+tar xzf $ASTERISK_FILENAME
+cd $ASTERISK_BASEFILENAME/
 
-# Download the Asterisk source
-cd /usr/src/
-sudo wget $ASTERISK_URL
+# Install Asterisk (configure, build, and run menuselect)
+sudo ./configure
 
-source $ORIGINAL_CWD/utilities/install_asterisk_from_source.sh
+# Run menuselect for interactive configuration
+make menuselect
+
+# Continue with the build process
+make
+sudo make install
+sudo make config
+sudo make install-logrotate
+
+# Create Asterisk user and group
+sudo useradd -r -s /sbin/nologin asterisk
+sudo chown -R asterisk:asterisk /usr/local/lib/asterisk
+sudo chown -R asterisk:asterisk /var/lib/asterisk
+sudo chown -R asterisk:asterisk /etc/asterisk
+sudo chown -R asterisk:asterisk /var/log/asterisk
+sudo chown -R asterisk:asterisk /var/spool/asterisk
+
+# Set up Asterisk to run as a service
+sudo tee /etc/systemd/system/asterisk.service > /dev/null <<EOL
+[Unit]
+Description=Asterisk
+After=network.target
+
+[Service]
+Type=simple
+User=asterisk
+Group=asterisk
+ExecStart=/usr/local/sbin/asterisk -f
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOL
+
+# Enable and start the Asterisk service
+sudo systemctl daemon-reload
+sudo systemctl enable asterisk
+sudo systemctl start asterisk
+
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 5038 tcp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 tcp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 5060 udp
+$ORIGINAL_CWD/utilities/firewall-add-port.sh public 10000-65535 tcp
 
 echo "Asterisk installation is complete."
 

@@ -135,8 +135,7 @@ install_rhel_security_updates() {
 }
 
 sudo dnf update -y --allowerasing
-#install extra RHEL packages
-sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y
+sudo dnf install -y epel-release
 sudo /usr/bin/crb enable
 source ./utilities/firewall-add-port.sh public 22 tcp
 source ./utilities/set_selinux_permissive.sh
