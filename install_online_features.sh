@@ -6,7 +6,7 @@ set -u
 set -o pipefail
 
 # Get Asterisk version
-source ./utilities/asterisk-version.sh
+source ./utilities/asterisk_version.sh
 
 echo "Select the features to install:"
 echo "1) Asterisk from RHEL repository *"
