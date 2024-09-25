@@ -1,5 +1,30 @@
 #!/bin/bash
 
+# Minimum required terminal dimensions
+MIN_COLS=80
+MIN_ROWS=21
+
+# Get current terminal size
+read -r rows cols < <(stty size)
+
+# Function to check terminal size
+check_terminal_size() {
+    if (( cols < MIN_COLS || rows < MIN_ROWS )); then
+        echo "Warning: Terminal size is too small!"
+        echo "Minimum required size is ${MIN_COLS}x${MIN_ROWS}."
+        echo "Current size is ${cols}x${rows}."
+        return 1
+    fi
+    return 0
+}
+
+# Check terminal size
+check_terminal_size
+if [[ $? -ne 0 ]]; then
+    echo "Please resize your terminal before continuing."
+    exit 1
+fi
+
 # Exit on any error
 set -e
 set -u
@@ -142,7 +167,6 @@ else
     sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     echo "EPEL repository installed from URL."
 fi
-sudo /usr/bin/crb enable
 source ./utilities/firewall-add-port.sh public 22 tcp
 source ./utilities/set_selinux_permissive.sh
 

@@ -4,10 +4,9 @@
 ORIGINAL_CWD=$(pwd)
 
 # Install dependencies
-sudo dnf groupinstall -y "Development Tools"
 sudo dnf install -y wget git gcc gcc-c++ make libxml2-devel sqlite-devel \
   uuid-devel jansson-devel openssl-devel ncurses-devel newt-devel \
-  libogg-devel libvorbis-devel spandsp-devel libedit-devel
+  libogg-devel libvorbis-devel spandsp-devel libuuid-devel libedit-devel
 
 # Create a directory for Asterisk
 mkdir -p ~/asterisk && cd ~/asterisk
