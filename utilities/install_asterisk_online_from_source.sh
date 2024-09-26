@@ -49,8 +49,13 @@ sudo bash -c 'echo "AST_USER=\"asterisk\"" > /etc/sysconfig/asterisk'
 sudo bash -c 'echo "AST_GROUP=\"asterisk\"" >> /etc/sysconfig/asterisk'
 
 # Update /etc/asterisk/asterisk.conf
-sudo bash -c 'echo "runuser = asterisk ; The user to run as." > /etc/asterisk/asterisk.conf'
+sudo bash -c 'echo "[general]" > /etc/asterisk/asterisk.conf'
+sudo bash -c 'echo "runuser = asterisk ; The user to run as." >> /etc/asterisk/asterisk.conf'
 sudo bash -c 'echo "rungroup = asterisk ; The group to run as." >> /etc/asterisk/asterisk.conf'
+
+sudo mkdir -p /var/run/asterisk
+sudo chown asterisk:asterisk /var/run/asterisk
+sudo chmod 750 /var/run/asterisk
 
 # Set up Asterisk to run as a service
 sudo tee /etc/systemd/system/asterisk.service > /dev/null <<EOL
