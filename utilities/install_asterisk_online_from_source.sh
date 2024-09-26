@@ -5,8 +5,7 @@ ORIGINAL_CWD=$(pwd)
 
 # Install dependencies
 sudo dnf group -y install "Development Tools"
-#sudo dnf install -y wget git gcc gcc-c++ make libxml2-devel sqlite-devel uuid-devel jansson-devel openssl-devel ncurses-devel newt-devel libogg-devel libvorbis-devel spandsp-devel libuuid-devel libedit-devel
-sudo dnf -y install git wget vim  net-tools sqlite-devel psmisc ncurses-devel libtermcap-devel newt-devel libxml2-devel libtiff-devel gtk2-devel libtool libuuid-devel subversion kernel-devel crontabs cronie-anacron libedit libedit-devel
+sudo dnf -y install git wget vim  net-tools sqlite-devel psmisc ncurses-devel newt-devel libxml2-devel libtiff-devel gtk2-devel libtool libuuid-devel subversion kernel-devel crontabs cronie-anacron libedit libedit-devel
 source utilities/install_jansson.sh
 # Create a directory for Asterisk
 cd /usr/src
