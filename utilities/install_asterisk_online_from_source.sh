@@ -23,7 +23,16 @@ cd $ASTERISK_BASEFILENAME/
 # Run menuselect for interactive configuration
 make menuselect
 
+set +e
+set +u
+set +o pipefail
+
 sudo contrib/scripts/get_mp3_source.sh
+
+set -e
+set -u
+set -o pipefail
+
 sudo ./contrib/scripts/install_prereq install
 
 # Continue with the build process
