@@ -30,11 +30,11 @@ sudo ./contrib/scripts/install_prereq install
 # Continue with the build process
 sudo dnf install chkconfig -y
 make
-make install
-make samples
-make config
-ldconfig
-#sudo rm /etc/rc.d/init.d/asterisk
+sudo make install
+sudo make samples
+sudo make config
+sudo ldconfig
+sudo rm /etc/rc.d/init.d/asterisk
 sudo make install-logrotate
 
 # Create Asterisk user and group
@@ -54,21 +54,21 @@ sudo bash -c 'echo "runuser = asterisk ; The user to run as." > /etc/asterisk/as
 sudo bash -c 'echo "rungroup = asterisk ; The group to run as." >> /etc/asterisk/asterisk.conf'
 
 # Set up Asterisk to run as a service
-#sudo tee /etc/systemd/system/asterisk.service > /dev/null <<EOL
-#[Unit]
-#Description=Asterisk
-#After=network.target
+sudo tee /etc/systemd/system/asterisk.service > /dev/null <<EOL
+[Unit]
+Description=Asterisk
+After=network.target
 
-#[Service]
-#Type=simple
-#User=asterisk
-#Group=asterisk
-#ExecStart=/usr/local/sbin/asterisk -f
-#Restart=on-failure
+[Service]
+Type=simple
+User=asterisk
+Group=asterisk
+ExecStart=/usr/sbin/asterisk -f
+Restart=on-failure
 
-#[Install]
-#WantedBy=multi-user.target
-#EOL
+[Install]
+WantedBy=multi-user.target
+EOL
 
 # Enable and start the Asterisk service
 sudo systemctl daemon-reload
