@@ -160,7 +160,7 @@ install_rhel_security_updates() {
 }
 
 sudo dnf update -y --allowerasing
-if sudo dnf install -y epel-release; then
+if sudo dnf install -y epel-release 2>/dev/null; then
     echo "EPEL repository installed successfully."
 else
     echo "EPEL repository not found. Installing from URL..."
