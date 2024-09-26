@@ -168,7 +168,6 @@ else
     echo "EPEL repository installed from URL."
 fi
 sudo /usr/bin/crb enable
-source ./utilities/firewall-add-port.sh public 22 tcp
 source ./utilities/set_selinux_permissive.sh
 
 # Process each selected feature
