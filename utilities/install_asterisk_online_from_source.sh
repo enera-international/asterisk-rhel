@@ -67,6 +67,9 @@ After=network.target
 Type=simple
 User=asterisk
 Group=asterisk
+ExecStartPre=/bin/mkdir -p /var/run/asterisk
+ExecStartPre=/bin/chown asterisk:asterisk /var/run/asterisk
+ExecStartPre=/bin/chmod 750 /var/run/asterisk
 ExecStart=/usr/sbin/asterisk -f
 Restart=on-failure
 

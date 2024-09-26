@@ -160,6 +160,7 @@ install_rhel_security_updates() {
 }
 
 sudo dnf update -y --allowerasing
+sudo dnf install -y gnome-tweaks
 if sudo dnf install -y epel-release 2>/dev/null; then
     echo "EPEL repository installed successfully."
 else
