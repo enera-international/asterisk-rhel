@@ -1,5 +1,7 @@
 #!/bin/bash
 
+BIN_DIR="$HOME/bin"
+
 # Minimum required terminal dimensions
 MIN_COLS=80
 MIN_ROWS=21
@@ -161,6 +163,9 @@ install_rhel_security_updates() {
 
 sudo dnf update -y --allowerasing
 sudo dnf install -y gnome-tweaks
+gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:'
+gsettings set org.gnome.shell.extensions.dash-to-panel show-apps-at-top true
+gsettings set org.gnome.desktop.background show-desktop-icons true
 if sudo dnf install -y epel-release 2>/dev/null; then
     echo "EPEL repository installed successfully."
 else
@@ -170,6 +175,13 @@ else
 fi
 sudo /usr/bin/crb enable
 source ./utilities/set_selinux_permissive.sh
+if [ ! -d "$BIN_DIR" ]; then
+    mkdir -p "$BIN_DIR"
+    echo "Created directory: $BIN_DIR"
+else
+    echo "Directory already exists: $BIN_DIR"
+fi
+cp ./utilities/sudo-fm $BIN_DIR
 
 # Process each selected feature
 for feature in $features; do
