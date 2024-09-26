@@ -77,6 +77,8 @@ Restart=on-failure
 WantedBy=multi-user.target
 EOL
 
+source ./utilities/enable_chan_sip.sh
+
 # Enable and start the Asterisk service
 sudo systemctl daemon-reload
 sudo systemctl enable asterisk
