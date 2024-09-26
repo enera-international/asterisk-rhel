@@ -2,8 +2,12 @@
 
 sudo dnf install httpd-tools -y
 sudo htpasswd -cb /etc/nginx/.htpasswd linehandler Qfpy65OWa6cRBxoctkqEtr2SKl1gNuQLOP42u8j25Gi5NykPkUm7KHsABjLGyvel
-sudo mkdir /etc/nginx/sites-available
-sudo mkdir /etc/nginx/sites-enabled
+if [ ! -d "/etc/nginx/sites-available" ]; then
+    sudo mkdir /etc/nginx/sites-available
+fi
+if [ ! -d "/etc/nginx/sites-enabled" ]; then
+    sudo mkdir /etc/nginx/sites-enabled
+f1
 sudo cp -f utilities/nginx.conf /etc/nginx/sites-available/enera
 sudo rm -f /etc/nginx/sites-enabled/default
 
