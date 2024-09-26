@@ -7,7 +7,7 @@ if [ ! -d "/etc/nginx/sites-available" ]; then
 fi
 if [ ! -d "/etc/nginx/sites-enabled" ]; then
     sudo mkdir /etc/nginx/sites-enabled
-f1
+fi
 sudo cp -f utilities/nginx.conf /etc/nginx/sites-available/enera
 sudo rm -f /etc/nginx/sites-enabled/default
 
