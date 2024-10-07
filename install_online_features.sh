@@ -77,7 +77,6 @@ install_enera_asterisk_api() {
 
     # download and install Node.js (you may need to restart the terminal)
     nvm install 20
-    sudo dnf install -y nginx
     
     # Add MongoDB repository and install
     sudo tee /etc/yum.repos.d/mongodb-org-4.4.repo > /dev/null <<EOF

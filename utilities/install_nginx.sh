@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo dnf install httpd-tools -y
+sudo dnf install -y nginx httpd-tools
 sudo htpasswd -cb /etc/nginx/.htpasswd linehandler Qfpy65OWa6cRBxoctkqEtr2SKl1gNuQLOP42u8j25Gi5NykPkUm7KHsABjLGyvel
 if [ ! -d "/etc/nginx/sites-available" ]; then
     sudo mkdir /etc/nginx/sites-available
@@ -41,37 +41,6 @@ sudo openssl req  -x509 -nodes -days 365 -new \
 sudo nginx -t
 sudo systemctl enable nginx
 sudo systemctl restart nginx
-# SELinux allow network access
-sudo setsebool -P httpd_can_network_connect 1
-
-username=$(whoami)
-if [ -f "enera-api.service" ]; then
-    rm enera-api.service
-fi
-cat <<EOF > "enera-api.service"
-[Unit]
-Description=Enera API server
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/node /home/$username/enera-asterisk-api-server/package/dist/index.js
-Restart=always
-User=$username
-Group=$username
-Environment=NODE_ENV=production
-WorkingDirectory=/home/$username/enera-asterisk-api-server/package
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=enera-asterisk-api-server
-
-[Install]
-WantedBy=multi-user.target
-EOF
-sudo cp -f enera-api.service /etc/systemd/system/enera-api.service
-
-sudo systemctl daemon-reload
-sudo systemctl enable enera-api
-sudo systemctl start enera-api
 
 ./utilities/firewall-add-port.sh public 80 tcp
 ./utilities/firewall-add-port.sh public 443 tcp
